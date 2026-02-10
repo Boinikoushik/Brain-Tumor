@@ -54,9 +54,12 @@ def ensure_model(model_info):
     path = model_info["path"]
     url = model_info["url"]
 
-    if not os.path.exists(path):
-        with st.spinner("⬇️ Downloading model from Google Drive..."):
-            gdown.download(url, path, quiet=False)
+    # 🚨 Delete bad file if it exists
+    if os.path.exists(path):
+        os.remove(path)
+
+    with st.spinner("⬇️ Downloading model from Google Drive..."):
+        gdown.download(url, path, fuzzy=True, quiet=False)
 
 
 # ======================
